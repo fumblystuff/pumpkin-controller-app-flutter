@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
 
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const PumpkinControllerHome(title: appName),
+      builder: EasyLoading.init(),
     );
   }
 }

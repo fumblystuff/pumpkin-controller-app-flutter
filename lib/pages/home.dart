@@ -29,8 +29,9 @@ class _PumpkinControllerHomeState extends State<PumpkinControllerHome> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Image(image: AssetImage('assets/images/pumpkin-256.png')),
             Text(
-              'This is some text',
+              'Loading configuration data...',
             ),
           ],
         ),
