@@ -16,6 +16,14 @@ class _PumpkinControllerHomeState extends State<PumpkinControllerHome> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () {
+              // do something
+            },
+          )
+        ],
       ),
       body: const Center(
         child: Column(
