@@ -14,6 +14,8 @@ dependencies:
   flutter_easyloading: ^3.0.5
   intl: ^0.18.1
   logging: ^1.2.0
+  package_info_plus: ^4.1.0
+  shared_preferences: ^2.2.0
 
 dev_dependencies:
   flutter_test:
@@ -25,6 +27,13 @@ flutter:
 
   assets:
     - assets/images/
+
+  fonts:
+    - family: Roboto Mono
+      fonts:
+        - asset: fonts/RobotoMono-Regular.ttf
+        - asset: fonts/RobotoMono-Bold.ttf
+          weight: 700
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

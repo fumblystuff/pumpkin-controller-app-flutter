@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
+import 'about_page.dart';
+import 'settings_page.dart';
 
 class PumpkinControllerHome extends StatefulWidget {
   const PumpkinControllerHome({super.key, required this.title});
@@ -20,19 +22,32 @@ class _PumpkinControllerHomeState extends State<PumpkinControllerHome> {
         title: Text(widget.title),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.settings),
+            icon: const Icon(Icons.info),
             onPressed: () {
-              // TODO: launch settings page
-              log.info('Launching Settings');
+              log.info('Opening About page');
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const AboutPage()),
+              ).then((value) => {log.info("returned")});
             },
-          )
+          ),
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              log.info('Opening Settings page');
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SettingsPage()),
+              ).then((value) => {log.info("returned")});
+            },
+          ),
         ],
       ),
       body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Image(image: AssetImage('assets/images/pumpkin-256.png')),
+            Image(image: AssetImage('assets/images/pumpkin-256.png')),
           ],
         ),
       ),

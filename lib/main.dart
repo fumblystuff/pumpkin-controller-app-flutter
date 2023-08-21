@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
 
 import './constants.dart';
-import 'pages/home.dart';
+import 'pages/home_page.dart';
 
 void main() {
   // Global settings for the logging package
