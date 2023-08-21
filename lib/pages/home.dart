@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../constants.dart';
+
 class PumpkinControllerHome extends StatefulWidget {
   const PumpkinControllerHome({super.key, required this.title});
 
@@ -20,7 +22,8 @@ class _PumpkinControllerHomeState extends State<PumpkinControllerHome> {
           IconButton(
             icon: Icon(Icons.settings),
             onPressed: () {
-              // do something
+              // TODO: launch settings page
+              log.info('Launching Settings');
             },
           )
         ],
@@ -29,10 +32,7 @@ class _PumpkinControllerHomeState extends State<PumpkinControllerHome> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image(image: AssetImage('assets/images/pumpkin-256.png')),
-            Text(
-              'Loading configuration data...',
-            ),
+            const Image(image: AssetImage('assets/images/pumpkin-256.png')),
           ],
         ),
       ),
