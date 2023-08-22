@@ -11,7 +11,9 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
+  dio: ^5.3.2
   flutter_easyloading: ^3.0.5
+  flutter_launcher_icons: ^0.13.1
   intl: ^0.18.1
   logging: ^1.2.0
   package_info_plus: ^4.1.0
@@ -21,6 +23,24 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: false
+  image_path: "assets/images/pumpkin-512.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "assets/images/pumpkin-512.png"
+    background_color: "#ffffff"
+    theme_color: "#ffffff"
+#  windows:
+#    generate: false
+#    image_path: "path/to/image.png"
+#    icon_size: 48 # min:48, max:256, default: 48
+#  macos:
+#    generate: false
+#    image_path: "path/to/image.png"
 
 flutter:
   uses-material-design: true
