@@ -1,11 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../classes/config.dart';
 import '../constants.dart';
+import '../utils/alerts.dart';
 import 'about_page.dart';
 import 'settings_page.dart';
 
+final Alerts alerts = Alerts(); // Alert functions
 final Config config = Config();
 final dio = Dio();
 
@@ -40,11 +43,9 @@ class _PumpkinControllerHomeState extends State<PumpkinControllerHome> {
   @override
   Widget build(BuildContext context) {
     double boxWidth = 10;
-    final ButtonStyle style = ElevatedButton.styleFrom(
-        padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-        textStyle: const TextStyle(fontSize: 20));
+
+    TextStyle headingStyle =
+        const TextStyle(fontWeight: FontWeight.bold, fontSize: 20);
 
     return FutureBuilder(
         future: initFuture,
@@ -80,40 +81,174 @@ class _PumpkinControllerHomeState extends State<PumpkinControllerHome> {
                   ),
                 ],
               ),
-              body: Center(
+              body: Container(
+                constraints: const BoxConstraints(minWidth: 400, maxWidth: 600),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
+                    const SizedBox(height: 10.0),
                     Padding(
-                      padding: const EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.all(10.0),
                       child: Row(
                         children: <Widget>[
-                          ElevatedButton(
-                            onPressed: () {
-                              log.info('button clicked');
-                              execCmd('off');
-                            },
-                            style: style,
-                            child: const Text('All Off'),
-                          ),
+                          _expandedButton(
+                              context: context, btnText: 'All Off', cmd: 'off')
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                        children: <Widget>[
+                          _expandedButton(
+                              context: context,
+                              btnText: 'Random',
+                              cmd: 'random'),
                           SizedBox(width: boxWidth),
-                          ElevatedButton(
-                            onPressed: () {
-                              log.info('button clicked');
-                              execCmd('random');
-                            },
-                            style: style,
-                            child: const Text('Random'),
-                          ),
+                          _expandedButton(
+                              context: context,
+                              btnText: 'Lightning',
+                              cmd: 'lightning'),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Static Colors',
+                          style: headingStyle,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                        children: <Widget>[
+                          _expandedButton(
+                              context: context,
+                              btnText: 'Blue',
+                              cmd: 'color:0',
+                              btnColor: Colors.blue,
+                              textColor: Colors.white),
                           SizedBox(width: boxWidth),
-                          ElevatedButton(
-                            onPressed: () {
-                              log.info('button clicked');
-                              execCmd('lightning');
-                            },
-                            style: style,
-                            child: const Text('Lightning'),
-                          ),
+                          _expandedButton(
+                              context: context,
+                              btnText: 'Green',
+                              cmd: 'color:1',
+                              btnColor: Colors.green,
+                              textColor: Colors.white),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                        children: <Widget>[
+                          _expandedButton(
+                              context: context,
+                              btnText: 'Orange',
+                              cmd: 'color:2',
+                              btnColor: Colors.orange,
+                              textColor: Colors.black),
+                          SizedBox(width: boxWidth),
+                          _expandedButton(
+                              context: context,
+                              btnText: 'Purple',
+                              cmd: 'color:3',
+                              btnColor: Colors.purple,
+                              textColor: Colors.white),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                        children: <Widget>[
+                          _expandedButton(
+                              context: context,
+                              btnText: 'Red',
+                              cmd: 'color:4',
+                              btnColor: Colors.red,
+                              textColor: Colors.white),
+                          SizedBox(width: boxWidth),
+                          _expandedButton(
+                              context: context,
+                              btnText: 'Yellow',
+                              cmd: 'color:5',
+                              btnColor: Colors.yellow,
+                              textColor: Colors.black),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Flash',
+                          style: headingStyle,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                        children: <Widget>[
+                          _expandedButton(
+                              context: context,
+                              btnText: 'Blue',
+                              cmd: 'flash:0:2',
+                              btnColor: Colors.blue,
+                              textColor: Colors.white),
+                          SizedBox(width: boxWidth),
+                          _expandedButton(
+                              context: context,
+                              btnText: 'Green',
+                              cmd: 'flash:1:2',
+                              btnColor: Colors.green,
+                              textColor: Colors.white),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                        children: <Widget>[
+                          _expandedButton(
+                              context: context,
+                              btnText: 'Orange',
+                              cmd: 'flash:2:2',
+                              btnColor: Colors.orange,
+                              textColor: Colors.black),
+                          SizedBox(width: boxWidth),
+                          _expandedButton(
+                              context: context,
+                              btnText: 'Purple',
+                              cmd: 'flash:3:2',
+                              btnColor: Colors.purple,
+                              textColor: Colors.white),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                        children: <Widget>[
+                          _expandedButton(
+                              context: context,
+                              btnText: 'Red',
+                              cmd: 'flash:4:2',
+                              btnColor: Colors.red,
+                              textColor: Colors.white),
+                          SizedBox(width: boxWidth),
+                          _expandedButton(
+                              context: context,
+                              btnText: 'Yellow',
+                              cmd: 'flash:5:2',
+                              btnColor: Colors.yellow,
+                              textColor: Colors.black),
                         ],
                       ),
                     ),
@@ -138,9 +273,67 @@ class _PumpkinControllerHomeState extends State<PumpkinControllerHome> {
   }
 }
 
-void execCmd(String cmdSnippet) async {
+void execCmd(BuildContext context, String cmdSnippet) async {
+  Response response;
   String cmdStr = 'http://${config.hostAddress}/$cmdSnippet';
-  log.info('Connecting to ${cmdStr}');
-  final response = await dio.get(cmdStr);
-  log.info(response.data);
+  log.info('Connecting to $cmdStr');
+  try {
+    response = await dio.get(cmdStr);
+    if (response.statusCode == 200) {
+      log.info('Success');
+      Fluttertoast.showToast(
+          msg: 'Successfully executed "$cmdSnippet" command',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          fontSize: 16.0);
+    } else {
+      log.info('Failure ${response.statusMessage}');
+      if (!context.mounted) return;
+      alerts.alertRaisedWait(
+          context: context,
+          title: 'Error',
+          message: 'Remote command execution failed (unknown error)');
+    }
+  } on DioException catch (e) {
+    if (e.response != null) {
+      print(e.response?.data);
+      print(e.response?.headers);
+
+      if (!context.mounted) return;
+      alerts.alertRaisedWait(
+          context: context,
+          title: 'Execution Error',
+          message: e.response!.statusMessage ?? 'Failure');
+    } else {
+      // Something happened in setting up or sending the request that triggered an Error
+      log.info(e.requestOptions);
+      log.info(e.message);
+    }
+  }
+}
+
+Widget _expandedButton(
+    {required BuildContext context,
+    required String btnText,
+    required String cmd,
+    Color btnColor = const Color(0xFFfefbff),
+    Color textColor = const Color(0xFF005ac2)}) {
+  // create our custom style object
+  ButtonStyle style = ElevatedButton.styleFrom(
+      padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      textStyle: const TextStyle(fontSize: 20),
+      backgroundColor: btnColor,
+      foregroundColor: textColor);
+  return Expanded(
+    child: ElevatedButton(
+      onPressed: () {
+        log.info('Button "$btnText" clicked');
+        execCmd(context, cmd);
+      },
+      style: style,
+      child: Text(btnText),
+    ),
+  );
 }

@@ -39,38 +39,30 @@ class _AboutPage extends State<AboutPage> {
     title += ": ";
     return Padding(
       padding: const EdgeInsets.all(4.0),
-      child: Text.rich(TextSpan(children: [
-        TextSpan(
-            text: title, style: const TextStyle(fontWeight: FontWeight.bold)),
-        TextSpan(text: subtitle.isNotEmpty ? subtitle : 'Not set'),
-      ])),
+      child: Text.rich(
+        TextSpan(children: [
+          TextSpan(
+              text: title, style: const TextStyle(fontWeight: FontWeight.bold)),
+          TextSpan(text: subtitle.isNotEmpty ? subtitle : 'Not set'),
+        ]),
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('About'),
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        ),
-        body: SafeArea(
-            child: ListView(padding: const EdgeInsets.all(16.0), children: [
+      appBar: AppBar(
+        title: const Text('About'),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+      ),
+      body: SafeArea(
+        child: ListView(padding: const EdgeInsets.all(16.0), children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-              Container(
-                padding: const EdgeInsets.all(5),
-                margin: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(
-                    width: 2,
-                  ),
-                ),
-                child: Image.asset("assets/images/pumpkin-128.png"),
-              )
+              Image.asset("assets/images/pumpkin-128.png"),
             ],
           ),
           const Text('Flank ground round bresaola salami. Ribeye short ribs '
@@ -95,6 +87,8 @@ class _AboutPage extends State<AboutPage> {
           appInfoStr('Package name', _packageInfo.packageName),
           appInfoStr('Application version', _packageInfo.version),
           appInfoStr('Build number', _packageInfo.buildNumber),
-        ])));
+        ]),
+      ),
+    );
   }
 }
