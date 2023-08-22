@@ -6,4 +6,6 @@ A web application used to control the [Glowing Pumpkin Xiao 5x5 BFF Server](http
 
 - [ ] Add my name and web site to the about page
 
+## Screenshot
+
 ![Home Page Image](images/image-01.png)
