@@ -8,6 +8,19 @@ import '../utils/alerts.dart';
 import 'about_page.dart';
 import 'settings_page.dart';
 
+//https://api.flutter.dev/flutter/material/DropdownMenu-class.html
+enum FlashCount {
+  one('One', 1),
+  two('Two', 2),
+  three('Three', 3),
+  four('Four', 4),
+  five('Five', 5);
+
+  const FlashCount(this.label, this.count);
+  final String label;
+  final int count;
+}
+
 final Alerts alerts = Alerts(); // Alert functions
 final Config config = Config();
 final dio = Dio();
@@ -24,6 +37,8 @@ class PumpkinControllerHome extends StatefulWidget {
 }
 
 class _PumpkinControllerHomeState extends State<PumpkinControllerHome> {
+  final TextEditingController flashController = TextEditingController();
+
   // Initialize the Config class (loading data) for the FutureBuilder
   Future<bool> initializeApp() async {
     log.info('HomePage: loadConfigAsync()');
@@ -42,6 +57,15 @@ class _PumpkinControllerHomeState extends State<PumpkinControllerHome> {
 
   @override
   Widget build(BuildContext context) {
+    final List<DropdownMenuEntry<FlashCount>> countEntries =
+        <DropdownMenuEntry<FlashCount>>[];
+    for (final FlashCount color in FlashCount.values) {
+      countEntries.add(
+        DropdownMenuEntry<FlashCount>(value: color, label: color.label),
+      );
+    }
+    FlashCount? selectedCount;
+
     double boxWidth = 10;
 
     TextStyle headingStyle =
@@ -112,6 +136,7 @@ class _PumpkinControllerHomeState extends State<PumpkinControllerHome> {
                         ],
                       ),
                     ),
+                    const Divider(),
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Align(
@@ -182,6 +207,7 @@ class _PumpkinControllerHomeState extends State<PumpkinControllerHome> {
                         ],
                       ),
                     ),
+                    const Divider(),
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Align(
@@ -195,18 +221,38 @@ class _PumpkinControllerHomeState extends State<PumpkinControllerHome> {
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Row(
+                        children: [
+                          const Text('Number of flashes:'),
+                          SizedBox(width: boxWidth),
+                          DropdownMenu<FlashCount>(
+                            initialSelection: FlashCount.three,
+                            controller: flashController,
+                            dropdownMenuEntries: countEntries,
+                            onSelected: (FlashCount? sel) {
+                              log.info('Flash count selection: ${sel?.count}');
+                              setState(() {
+                                selectedCount = sel;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
                         children: <Widget>[
                           _expandedButton(
                               context: context,
                               btnText: 'Blue',
-                              cmd: 'flash:0:2',
+                              cmd: 'flash:0:${selectedCount?.count}',
                               btnColor: Colors.blue,
                               textColor: Colors.white),
                           SizedBox(width: boxWidth),
                           _expandedButton(
                               context: context,
                               btnText: 'Green',
-                              cmd: 'flash:1:2',
+                              cmd: 'flash:1:${selectedCount?.count}',
                               btnColor: Colors.green,
                               textColor: Colors.white),
                         ],
@@ -219,14 +265,14 @@ class _PumpkinControllerHomeState extends State<PumpkinControllerHome> {
                           _expandedButton(
                               context: context,
                               btnText: 'Orange',
-                              cmd: 'flash:2:2',
+                              cmd: 'flash:2:${selectedCount?.count}',
                               btnColor: Colors.orange,
                               textColor: Colors.black),
                           SizedBox(width: boxWidth),
                           _expandedButton(
                               context: context,
                               btnText: 'Purple',
-                              cmd: 'flash:3:2',
+                              cmd: 'flash:3:${selectedCount?.count}',
                               btnColor: Colors.purple,
                               textColor: Colors.white),
                         ],
@@ -239,14 +285,14 @@ class _PumpkinControllerHomeState extends State<PumpkinControllerHome> {
                           _expandedButton(
                               context: context,
                               btnText: 'Red',
-                              cmd: 'flash:4:2',
+                              cmd: 'flash:4:${selectedCount?.count}',
                               btnColor: Colors.red,
                               textColor: Colors.white),
                           SizedBox(width: boxWidth),
                           _expandedButton(
                               context: context,
                               btnText: 'Yellow',
-                              cmd: 'flash:5:2',
+                              cmd: 'flash:5:${selectedCount?.count}',
                               btnColor: Colors.yellow,
                               textColor: Colors.black),
                         ],
