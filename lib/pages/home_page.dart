@@ -10,6 +10,7 @@ import 'settings_page.dart';
 
 //https://api.flutter.dev/flutter/material/DropdownMenu-class.html
 enum FlashCount {
+  solid('Solid (no flash)', 0),
   one('One', 1),
   two('Two', 2),
   three('Three', 3),
@@ -21,12 +22,13 @@ enum FlashCount {
   final int count;
 }
 
+late FlashCount? selectedCount;
+// https://stackoverflow.com/questions/57793479/flutter-futurebuilder-gets-constantly-called
+late Future initFuture;
+
 final Alerts alerts = Alerts(); // Alert functions
 final Config config = Config();
 final dio = Dio();
-
-// https://stackoverflow.com/questions/57793479/flutter-futurebuilder-gets-constantly-called
-late Future initFuture;
 
 class PumpkinControllerHome extends StatefulWidget {
   const PumpkinControllerHome({super.key, required this.title});
@@ -53,6 +55,7 @@ class _PumpkinControllerHomeState extends State<PumpkinControllerHome> {
     log.info('HomePage: Initializing State');
     super.initState();
     initFuture = initializeApp();
+    selectedCount = FlashCount.solid;
   }
 
   @override
@@ -64,12 +67,15 @@ class _PumpkinControllerHomeState extends State<PumpkinControllerHome> {
         DropdownMenuEntry<FlashCount>(value: color, label: color.label),
       );
     }
-    FlashCount? selectedCount;
 
     double boxWidth = 10;
-
     TextStyle headingStyle =
         const TextStyle(fontWeight: FontWeight.bold, fontSize: 20);
+    ButtonStyle btnStyle = ElevatedButton.styleFrom(
+        padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+        textStyle: const TextStyle(fontSize: 20));
 
     return FutureBuilder(
         future: initFuture,
@@ -115,8 +121,15 @@ class _PumpkinControllerHomeState extends State<PumpkinControllerHome> {
                       padding: const EdgeInsets.all(10.0),
                       child: Row(
                         children: <Widget>[
-                          _expandedButton(
-                              context: context, btnText: 'All Off', cmd: 'off')
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: () {
+                                execCmd(context, 'off');
+                              },
+                              style: btnStyle,
+                              child: const Text('All Off'),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -124,15 +137,25 @@ class _PumpkinControllerHomeState extends State<PumpkinControllerHome> {
                       padding: const EdgeInsets.all(10.0),
                       child: Row(
                         children: <Widget>[
-                          _expandedButton(
-                              context: context,
-                              btnText: 'Random',
-                              cmd: 'random'),
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: () {
+                                execCmd(context, 'random');
+                              },
+                              style: btnStyle,
+                              child: const Text('Random'),
+                            ),
+                          ),
                           SizedBox(width: boxWidth),
-                          _expandedButton(
-                              context: context,
-                              btnText: 'Lightning',
-                              cmd: 'lightning'),
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: () {
+                                execCmd(context, 'lightning');
+                              },
+                              style: btnStyle,
+                              child: const Text('Lightning'),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -142,78 +165,7 @@ class _PumpkinControllerHomeState extends State<PumpkinControllerHome> {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          'Static Colors',
-                          style: headingStyle,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Row(
-                        children: <Widget>[
-                          _expandedButton(
-                              context: context,
-                              btnText: 'Blue',
-                              cmd: 'color:0',
-                              btnColor: Colors.blue,
-                              textColor: Colors.white),
-                          SizedBox(width: boxWidth),
-                          _expandedButton(
-                              context: context,
-                              btnText: 'Green',
-                              cmd: 'color:1',
-                              btnColor: Colors.green,
-                              textColor: Colors.white),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Row(
-                        children: <Widget>[
-                          _expandedButton(
-                              context: context,
-                              btnText: 'Orange',
-                              cmd: 'color:2',
-                              btnColor: Colors.orange,
-                              textColor: Colors.black),
-                          SizedBox(width: boxWidth),
-                          _expandedButton(
-                              context: context,
-                              btnText: 'Purple',
-                              cmd: 'color:3',
-                              btnColor: Colors.purple,
-                              textColor: Colors.white),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Row(
-                        children: <Widget>[
-                          _expandedButton(
-                              context: context,
-                              btnText: 'Red',
-                              cmd: 'color:4',
-                              btnColor: Colors.red,
-                              textColor: Colors.white),
-                          SizedBox(width: boxWidth),
-                          _expandedButton(
-                              context: context,
-                              btnText: 'Yellow',
-                              cmd: 'color:5',
-                              btnColor: Colors.yellow,
-                              textColor: Colors.black),
-                        ],
-                      ),
-                    ),
-                    const Divider(),
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Flash',
+                          'Colors',
                           style: headingStyle,
                         ),
                       ),
@@ -222,10 +174,10 @@ class _PumpkinControllerHomeState extends State<PumpkinControllerHome> {
                       padding: const EdgeInsets.all(10.0),
                       child: Row(
                         children: [
-                          const Text('Number of flashes:'),
-                          SizedBox(width: boxWidth),
+                          // const Text('Number of flashes:'),
+                          // SizedBox(width: boxWidth),
                           DropdownMenu<FlashCount>(
-                            initialSelection: FlashCount.three,
+                            initialSelection: FlashCount.solid,
                             controller: flashController,
                             dropdownMenuEntries: countEntries,
                             onSelected: (FlashCount? sel) {
@@ -245,14 +197,16 @@ class _PumpkinControllerHomeState extends State<PumpkinControllerHome> {
                           _expandedButton(
                               context: context,
                               btnText: 'Blue',
-                              cmd: 'flash:0:${selectedCount?.count.toString()}',
+                              colorIdx: 0,
+                              countIdx: selectedCount!.count,
                               btnColor: Colors.blue,
                               textColor: Colors.white),
                           SizedBox(width: boxWidth),
                           _expandedButton(
                               context: context,
                               btnText: 'Green',
-                              cmd: 'flash:1:${selectedCount?.count}',
+                              colorIdx: 1,
+                              countIdx: selectedCount!.count,
                               btnColor: Colors.green,
                               textColor: Colors.white),
                         ],
@@ -265,14 +219,16 @@ class _PumpkinControllerHomeState extends State<PumpkinControllerHome> {
                           _expandedButton(
                               context: context,
                               btnText: 'Orange',
-                              cmd: 'flash:2:${selectedCount?.count}',
+                              colorIdx: 2,
+                              countIdx: selectedCount!.count,
                               btnColor: Colors.orange,
                               textColor: Colors.black),
                           SizedBox(width: boxWidth),
                           _expandedButton(
                               context: context,
                               btnText: 'Purple',
-                              cmd: 'flash:3:${selectedCount?.count}',
+                              colorIdx: 3,
+                              countIdx: selectedCount!.count,
                               btnColor: Colors.purple,
                               textColor: Colors.white),
                         ],
@@ -285,14 +241,16 @@ class _PumpkinControllerHomeState extends State<PumpkinControllerHome> {
                           _expandedButton(
                               context: context,
                               btnText: 'Red',
-                              cmd: 'flash:4:${selectedCount?.count}',
+                              colorIdx: 4,
+                              countIdx: selectedCount!.count,
                               btnColor: Colors.red,
                               textColor: Colors.white),
                           SizedBox(width: boxWidth),
                           _expandedButton(
                               context: context,
                               btnText: 'Yellow',
-                              cmd: 'flash:5:${selectedCount?.count}',
+                              colorIdx: 5,
+                              countIdx: selectedCount!.count,
                               btnColor: Colors.yellow,
                               textColor: Colors.black),
                         ],
@@ -362,23 +320,26 @@ void execCmd(BuildContext context, String cmdSnippet) async {
 Widget _expandedButton(
     {required BuildContext context,
     required String btnText,
-    required String cmd,
+    required int colorIdx,
+    required int countIdx,
     Color btnColor = const Color(0xFFfefbff),
     Color textColor = const Color(0xFF005ac2)}) {
-  // create our custom style object
-  ButtonStyle style = ElevatedButton.styleFrom(
+  // create our custom btnStyle object
+  ButtonStyle btnStyle = ElevatedButton.styleFrom(
       padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       textStyle: const TextStyle(fontSize: 20),
       backgroundColor: btnColor,
       foregroundColor: textColor);
+
+  String cmd = (countIdx < 1) ? 'color:$colorIdx' : 'flash:$colorIdx:$countIdx';
   return Expanded(
     child: ElevatedButton(
       onPressed: () {
         log.info('Button "$btnText" clicked');
         execCmd(context, cmd);
       },
-      style: style,
+      style: btnStyle,
       child: Text(btnText),
     ),
   );
