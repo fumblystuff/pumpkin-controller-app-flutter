@@ -25,8 +25,8 @@ Tap the **Random** button to instruct the remote device to display random colors
 
 Tap the **Lightning** button to direct the remote device to flash the LEDs white a random number of times. At the conclusion, the remote device enables random mode.
 
-To use colors, select a value from the dropdown list
+To use colors, select a value from the dropdown list, then tap the appropriate color button for the color you want displayed on the remote device:
 
-
-## Screenshot
+* Selecting **Solid (no flash)** sets all LEDs on the remote device to the selected color.
+* Selecting any of the other options in the dropdown field flashes the selected color the number of times specified in the dropdown then enables random color mode on the device.
 
