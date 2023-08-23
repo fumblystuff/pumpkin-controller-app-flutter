@@ -6,7 +6,8 @@ A web application used to control the [Glowing Pumpkin Xiao 5x5 BFF Server](http
 
 - [ ] Check for IP Address before executing command
 - [ ] Put `dropDownMenu` on the same line as the header
-- [ ] Add my name and web site to the about page
+- [ ] Add my name and web site to the about page, add link to GitHub project
+- [ ] Add footer with link to GitHub project
 
 ## Screenshot
 
