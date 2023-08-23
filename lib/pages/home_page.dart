@@ -245,7 +245,7 @@ class _PumpkinControllerHomeState extends State<PumpkinControllerHome> {
                           _expandedButton(
                               context: context,
                               btnText: 'Blue',
-                              cmd: 'flash:0:${selectedCount?.count}',
+                              cmd: 'flash:0:${selectedCount?.count.toString()}',
                               btnColor: Colors.blue,
                               textColor: Colors.white),
                           SizedBox(width: boxWidth),
