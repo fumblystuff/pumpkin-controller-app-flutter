@@ -28,23 +28,23 @@ class Config with ChangeNotifier {
   }
 
   Future loadData() async {
-    log.info('Config: loadData()');
+    // log.info('Config: loadData()');
     // uncomment the following code to simulate a delay in loading the config
     // so you can see the loading message longer
     // await Future.delayed(const Duration(seconds: 4), () {});
     final SharedPreferences prefs = await _prefs;
 
     _hostAddress = prefs.getString(hostAddressKey) ?? '';
-    log.info('Config: Data loaded');
+    // log.info('Config: Data loaded');
   }
 
   String get hostAddress {
-    log.fine('Config: Get hostAddress');
+    // log.fine('Config: Get hostAddress');
     return _hostAddress;
   }
 
   set hostAddress(String hostAddress) {
-    log.fine('Config: Set host address ($hostAddress)');
+    // log.fine('Config: Set host address ($hostAddress)');
     _hostAddress = hostAddress;
     _saveString(hostAddressKey, hostAddress);
   }
@@ -53,7 +53,7 @@ class Config with ChangeNotifier {
     // Show asterisks or the actual value? Generates string made up of
     // asterisks equaling the length of the original string
     String printVal = hideValue ? '*' * value.length : value;
-    log.info('Config: Writing "$printVal" to preferences "$key"');
+    // log.info('Config: Writing "$printVal" to preferences "$key"');
     final SharedPreferences prefs = await _prefs;
     prefs.setString(key, value);
   }

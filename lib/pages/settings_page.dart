@@ -56,7 +56,7 @@ class _SettingsState extends State<SettingsPage>
               ),
               const SizedBox(height: 10),
               TextField(
-                autofocus: false,
+                autofocus: true,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                 ),

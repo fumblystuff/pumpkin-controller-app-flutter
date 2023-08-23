@@ -11,11 +11,11 @@ import 'settings_page.dart';
 //https://api.flutter.dev/flutter/material/DropdownMenu-class.html
 enum FlashCount {
   solid('Solid (no flash)', 0),
-  one('One', 1),
-  two('Two', 2),
-  three('Three', 3),
-  four('Four', 4),
-  five('Five', 5);
+  one('Flash Once', 1),
+  two('Flash Twice', 2),
+  three('Flash Three Times', 3),
+  four('Flash Four Times', 4),
+  five('Flash Five Times', 5);
 
   const FlashCount(this.label, this.count);
   final String label;
@@ -60,14 +60,6 @@ class _PumpkinControllerHomeState extends State<PumpkinControllerHome> {
 
   @override
   Widget build(BuildContext context) {
-    final List<DropdownMenuEntry<FlashCount>> countEntries =
-        <DropdownMenuEntry<FlashCount>>[];
-    for (final FlashCount color in FlashCount.values) {
-      countEntries.add(
-        DropdownMenuEntry<FlashCount>(value: color, label: color.label),
-      );
-    }
-
     double boxWidth = 10;
     TextStyle headingStyle =
         const TextStyle(fontWeight: FontWeight.bold, fontSize: 20);
@@ -76,6 +68,14 @@ class _PumpkinControllerHomeState extends State<PumpkinControllerHome> {
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
         textStyle: const TextStyle(fontSize: 20));
+
+    final List<DropdownMenuEntry<FlashCount>> countEntries =
+        <DropdownMenuEntry<FlashCount>>[];
+    for (final FlashCount color in FlashCount.values) {
+      countEntries.add(
+        DropdownMenuEntry<FlashCount>(value: color, label: color.label),
+      );
+    }
 
     return FutureBuilder(
         future: initFuture,
@@ -181,7 +181,7 @@ class _PumpkinControllerHomeState extends State<PumpkinControllerHome> {
                             controller: flashController,
                             dropdownMenuEntries: countEntries,
                             onSelected: (FlashCount? sel) {
-                              log.info('Flash count selection: ${sel?.count}');
+                              // log.info('Flash count selection: ${sel?.count}');
                               setState(() {
                                 selectedCount = sel;
                               });
@@ -336,7 +336,7 @@ Widget _expandedButton(
   return Expanded(
     child: ElevatedButton(
       onPressed: () {
-        log.info('Button "$btnText" clicked');
+        // log.info('Button "$btnText" clicked');
         execCmd(context, cmd);
       },
       style: btnStyle,
