@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../classes/config.dart';
@@ -282,7 +283,9 @@ void execCmd(BuildContext context, String cmdSnippet) async {
   String cmdStr = 'http://${config.hostAddress}/$cmdSnippet';
   log.info('Connecting to $cmdStr');
   try {
+    EasyLoading.show(status: 'Executing command...');
     response = await dio.get(cmdStr);
+    EasyLoading.dismiss();
     if (response.statusCode == 200) {
       log.info('Success');
       Fluttertoast.showToast(
@@ -300,6 +303,7 @@ void execCmd(BuildContext context, String cmdSnippet) async {
           message: 'Remote command execution failed (unknown error)');
     }
   } on DioException catch (e) {
+    EasyLoading.dismiss();
     if (e.response != null) {
       print(e.response?.data);
       print(e.response?.headers);
