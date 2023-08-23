@@ -4,8 +4,10 @@
 
 import 'dart:async';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AboutPage extends StatefulWidget {
   const AboutPage({super.key});
@@ -35,6 +37,13 @@ class _AboutPage extends State<AboutPage> {
     });
   }
 
+  Future<void> _launchUrl(String target) async {
+    Uri url = Uri.parse(target);
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
   Widget appInfoStr(String title, String subtitle) {
     title += ": ";
     return Padding(
@@ -51,6 +60,8 @@ class _AboutPage extends State<AboutPage> {
 
   @override
   Widget build(BuildContext context) {
+    TextStyle linkStyle = const TextStyle(color: Colors.blue);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('About'),
@@ -65,20 +76,49 @@ class _AboutPage extends State<AboutPage> {
               Image.asset("assets/images/pumpkin-128.png"),
             ],
           ),
-          const Text('Flank ground round bresaola salami. Ribeye short ribs '
-              'pastrami pork chop jerky jowl picanha. Pork ham bacon '
-              'pancetta tongue. Swine burgdoggen frankfurter cupim chuck '
-              'porchetta. Shoulder ball tip meatloaf ham hock beef pig '
-              'pastrami jowl boudin sirloin swine chuck chislic turkey.'),
+          const Text(''),
           const SizedBox(height: 10),
-          const Text("Chislic flank picanha pork pork loin landjaeger, tri-tip "
-              "biltong porchetta jowl chuck hamburger shoulder tail salami. "
-              "Burgdoggen pig ribeye pork salami andouille. Kevin salami "
-              "sirloin tail. Meatloaf andouille tongue burgdoggen fatback, "
-              "kielbasa short loin. Shoulder bresaola swine kielbasa, "
-              "fatback ground round sausage turducken tri-tip hamburger "
-              "pork venison bacon ball tip buffalo. Beef ribs fatback "
-              "salami kevin."),
+          RichText(
+            text: TextSpan(
+              children: [
+                const TextSpan(
+                  text: 'This is the controller application for the ',
+                ),
+                TextSpan(
+                  text: 'Glowing Pumpkin Xiao 5x5 BFF Server',
+                  style: linkStyle,
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      _launchUrl(
+                          'https://github.com/johnwargo/glowing-pumpkin-xiao-bff-server');
+                    },
+                ),
+                const TextSpan(
+                    text: ' project. It allows you to remotely control a 5x5 '
+                        'array of LEDs (NeoPioxels) attached to a Seeed '
+                        'Studio Xaio device. Refer to the project link '
+                        'for additional details.\n'),
+              ],
+            ),
+          ),
+          RichText(
+            text: TextSpan(
+              children: [
+                const TextSpan(
+                  text: 'Project and App by ',
+                ),
+                TextSpan(
+                  text: 'John M. Wargo',
+                  style: linkStyle,
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      _launchUrl('https://johnwargo.com');
+                    },
+                ),
+                const TextSpan(text: '.'),
+              ],
+            ),
+          ),
           const SizedBox(height: 20),
           const Text("Application Information",
               style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
