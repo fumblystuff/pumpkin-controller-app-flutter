@@ -1,6 +1,8 @@
 # Pumpkin Controller (Flutter)
 
-The controller application for the [Glowing Pumpkin Xiao 5x5 BFF Server](https://github.com/johnwargo/glowing-pumpkin-xiao-bff-server). Use the application to:
+The controller application for the [Glowing Pumpkin Xiao 5x5 BFF Server](https://github.com/johnwargo/glowing-pumpkin-xiao-bff-server). This is a full featured application written in Flutter that you can deploy to a mobile device (Android and iOS) or a web server. You can even run the application locally from Android Studio or Visual Studio Code (with the required Flutter SDK installed).
+
+Use the application to:
 
 * Start and stop the remote device displaying random colors
 * Flash the remote device's LED matrix a random number of times white, like lightning flashes.
