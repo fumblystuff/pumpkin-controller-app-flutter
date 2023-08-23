@@ -30,3 +30,7 @@ To use colors, select a value from the dropdown list, then tap the appropriate c
 * Selecting **Solid (no flash)** sets all LEDs on the remote device to the selected color.
 * Selecting any of the other options in the dropdown field flashes the selected color the number of times specified in the dropdown then enables random color mode on the device.
 
+## Mobile App
+
+I published the project here with full source code so developers familiar with Flutter development can deploy the application on their mobile phones. Reach out to let me know if you'd like me to publish the app to the App Stores (Apple and/or Google), and I'll try to make that happen.
+
