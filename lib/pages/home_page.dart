@@ -163,20 +163,17 @@ class _PumpkinControllerHomeState extends State<PumpkinControllerHome> {
                     const Divider(),
                     Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Colors',
-                          style: headingStyle,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
                       child: Row(
                         children: [
-                          // const Text('Number of flashes:'),
-                          // SizedBox(width: boxWidth),
+                          Expanded(
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                'Colors',
+                                style: headingStyle,
+                              ),
+                            ),
+                          ),
                           DropdownMenu<FlashCount>(
                             initialSelection: FlashCount.solid,
                             controller: flashController,
@@ -278,49 +275,6 @@ class _PumpkinControllerHomeState extends State<PumpkinControllerHome> {
   }
 }
 
-void execCmd(BuildContext context, String cmdSnippet) async {
-  Response response;
-  String cmdStr = 'http://${config.hostAddress}/$cmdSnippet';
-  log.info('Connecting to $cmdStr');
-  try {
-    EasyLoading.show(status: 'Executing command...');
-    response = await dio.get(cmdStr);
-    EasyLoading.dismiss();
-    if (response.statusCode == 200) {
-      log.info('Success');
-      Fluttertoast.showToast(
-          msg: 'Successfully executed "$cmdSnippet" command',
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          fontSize: 16.0);
-    } else {
-      log.info('Failure ${response.statusMessage}');
-      if (!context.mounted) return;
-      alerts.alertRaisedWait(
-          context: context,
-          title: 'Error',
-          message: 'Remote command execution failed (unknown error)');
-    }
-  } on DioException catch (e) {
-    EasyLoading.dismiss();
-    if (e.response != null) {
-      print(e.response?.data);
-      print(e.response?.headers);
-
-      if (!context.mounted) return;
-      alerts.alertRaisedWait(
-          context: context,
-          title: 'Execution Error',
-          message: e.response!.statusMessage ?? 'Failure');
-    } else {
-      // Something happened in setting up or sending the request that triggered an Error
-      log.info(e.requestOptions);
-      log.info(e.message);
-    }
-  }
-}
-
 Widget _expandedButton(
     {required BuildContext context,
     required String btnText,
@@ -347,4 +301,59 @@ Widget _expandedButton(
       child: Text(btnText),
     ),
   );
+}
+
+void execCmd(BuildContext context, String cmdSnippet) async {
+  Response response;
+
+  String hostAddress = config.hostAddress ?? '';
+  if (hostAddress.isEmpty) {
+    alerts.alertRaisedWait(
+        context: context,
+        title: 'Configuration Error',
+        message: 'You must enter an IP Address for the remote device'
+            'before you can send commands to it.\nOpen the '
+            'Settings page (click the gear icon in the upper right'
+            'corner of the app) and enter the IP address.');
+    return;
+  }
+
+  String cmdStr = 'http://$hostAddress/$cmdSnippet';
+  log.info('Connecting to $cmdStr');
+  try {
+    EasyLoading.show(status: 'Executing...');
+    response = await dio.get(cmdStr);
+    EasyLoading.dismiss();
+    if (response.statusCode == 200) {
+      log.info('Success');
+      Fluttertoast.showToast(
+          msg: 'Successfully executed "$cmdSnippet" command',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          fontSize: 16.0);
+    } else {
+      log.info('Failure ${response.statusMessage}');
+      if (!context.mounted) return;
+      alerts.alertRaisedWait(
+          context: context,
+          title: 'Error',
+          message: 'Remote command execution failed (unknown error)');
+    }
+  } on DioException catch (e) {
+    EasyLoading.dismiss();
+    if (e.response != null) {
+      print(e.response?.data);
+      print(e.response?.headers);
+      if (!context.mounted) return;
+      alerts.alertRaisedWait(
+          context: context,
+          title: 'Execution Error',
+          message: e.response!.statusMessage ?? 'Failure');
+    } else {
+      // Something happened in setting up or sending the request that triggered an Error
+      log.info(e.requestOptions);
+      log.info(e.message);
+    }
+  }
 }
