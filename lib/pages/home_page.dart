@@ -112,149 +112,154 @@ class _PumpkinControllerHomeState extends State<PumpkinControllerHome> {
                   ),
                 ],
               ),
-              body: Container(
-                constraints: const BoxConstraints(minWidth: 400, maxWidth: 600),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    const SizedBox(height: 10.0),
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: () {
-                                execCmd(context, 'off');
-                              },
-                              style: btnStyle,
-                              child: const Text('All Off'),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: () {
-                                execCmd(context, 'random');
-                              },
-                              style: btnStyle,
-                              child: const Text('Random'),
-                            ),
-                          ),
-                          SizedBox(width: boxWidth),
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: () {
-                                execCmd(context, 'lightning');
-                              },
-                              style: btnStyle,
-                              child: const Text('Lightning'),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const Divider(),
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                'Colors',
-                                style: headingStyle,
+              body: SafeArea(
+                child: SingleChildScrollView(
+                  child: Container(
+                    constraints:
+                        const BoxConstraints(minWidth: 400, maxWidth: 600),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        const SizedBox(height: 10.0),
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    execCmd(context, 'off');
+                                  },
+                                  style: btnStyle,
+                                  child: const Text('All Off'),
+                                ),
                               ),
-                            ),
+                            ],
                           ),
-                          DropdownMenu<FlashCount>(
-                            initialSelection: FlashCount.solid,
-                            controller: flashController,
-                            dropdownMenuEntries: countEntries,
-                            onSelected: (FlashCount? sel) {
-                              // log.info('Flash count selection: ${sel?.count}');
-                              setState(() {
-                                selectedCount = sel;
-                              });
-                            },
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    execCmd(context, 'random');
+                                  },
+                                  style: btnStyle,
+                                  child: const Text('Random'),
+                                ),
+                              ),
+                              SizedBox(width: boxWidth),
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    execCmd(context, 'lightning');
+                                  },
+                                  style: btnStyle,
+                                  child: const Text('Lightning'),
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                        const Divider(),
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    'Colors',
+                                    style: headingStyle,
+                                  ),
+                                ),
+                              ),
+                              DropdownMenu<FlashCount>(
+                                initialSelection: FlashCount.solid,
+                                controller: flashController,
+                                dropdownMenuEntries: countEntries,
+                                onSelected: (FlashCount? sel) {
+                                  // log.info('Flash count selection: ${sel?.count}');
+                                  setState(() {
+                                    selectedCount = sel;
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Row(
+                            children: <Widget>[
+                              _expandedButton(
+                                  context: context,
+                                  btnText: 'Blue',
+                                  colorIdx: 0,
+                                  countIdx: selectedCount!.count,
+                                  btnColor: Colors.blue,
+                                  textColor: Colors.white),
+                              SizedBox(width: boxWidth),
+                              _expandedButton(
+                                  context: context,
+                                  btnText: 'Green',
+                                  colorIdx: 1,
+                                  countIdx: selectedCount!.count,
+                                  btnColor: Colors.green,
+                                  textColor: Colors.white),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Row(
+                            children: <Widget>[
+                              _expandedButton(
+                                  context: context,
+                                  btnText: 'Orange',
+                                  colorIdx: 2,
+                                  countIdx: selectedCount!.count,
+                                  btnColor: Colors.orange,
+                                  textColor: Colors.black),
+                              SizedBox(width: boxWidth),
+                              _expandedButton(
+                                  context: context,
+                                  btnText: 'Purple',
+                                  colorIdx: 3,
+                                  countIdx: selectedCount!.count,
+                                  btnColor: Colors.purple,
+                                  textColor: Colors.white),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Row(
+                            children: <Widget>[
+                              _expandedButton(
+                                  context: context,
+                                  btnText: 'Red',
+                                  colorIdx: 4,
+                                  countIdx: selectedCount!.count,
+                                  btnColor: Colors.red,
+                                  textColor: Colors.white),
+                              SizedBox(width: boxWidth),
+                              _expandedButton(
+                                  context: context,
+                                  btnText: 'Yellow',
+                                  colorIdx: 5,
+                                  countIdx: selectedCount!.count,
+                                  btnColor: Colors.yellow,
+                                  textColor: Colors.black),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Row(
-                        children: <Widget>[
-                          _expandedButton(
-                              context: context,
-                              btnText: 'Blue',
-                              colorIdx: 0,
-                              countIdx: selectedCount!.count,
-                              btnColor: Colors.blue,
-                              textColor: Colors.white),
-                          SizedBox(width: boxWidth),
-                          _expandedButton(
-                              context: context,
-                              btnText: 'Green',
-                              colorIdx: 1,
-                              countIdx: selectedCount!.count,
-                              btnColor: Colors.green,
-                              textColor: Colors.white),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Row(
-                        children: <Widget>[
-                          _expandedButton(
-                              context: context,
-                              btnText: 'Orange',
-                              colorIdx: 2,
-                              countIdx: selectedCount!.count,
-                              btnColor: Colors.orange,
-                              textColor: Colors.black),
-                          SizedBox(width: boxWidth),
-                          _expandedButton(
-                              context: context,
-                              btnText: 'Purple',
-                              colorIdx: 3,
-                              countIdx: selectedCount!.count,
-                              btnColor: Colors.purple,
-                              textColor: Colors.white),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Row(
-                        children: <Widget>[
-                          _expandedButton(
-                              context: context,
-                              btnText: 'Red',
-                              colorIdx: 4,
-                              countIdx: selectedCount!.count,
-                              btnColor: Colors.red,
-                              textColor: Colors.white),
-                          SizedBox(width: boxWidth),
-                          _expandedButton(
-                              context: context,
-                              btnText: 'Yellow',
-                              colorIdx: 5,
-                              countIdx: selectedCount!.count,
-                              btnColor: Colors.yellow,
-                              textColor: Colors.black),
-                        ],
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
             );

@@ -336,3 +336,15 @@ aLy @ main.dart.js:8330
 (anonymous) @ main.dart.js:8326
 main.dart.js:25727 12:28:55:992 Pumpkin Controller (INFO)    Instance of 'minified:jq'
 main.dart.js:25727 12:28:55:992 Pumpkin Controller (INFO)    The connection errored: The XMLHttpRequest onError callback was called. This typically indicates an error on the network layer.
+
+
+
+## XHR
+
+Click: btnOff
+index.js:72 Executing: http://192.168.86.230/off
+index.js:85 ready state: 1, status: 0
+index.js:89 Mixed Content: The page at 'https://xhr--pumpkin-controller.netlify.app/' was loaded over HTTPS, but requested an insecure XMLHttpRequest endpoint 'http://192.168.86.230/off'. This request has been blocked; the content must be served over HTTPS.
+execCmd @ index.js:89
+(anonymous) @ index.js:35
+index.js:85 ready state: 4, status: 0

@@ -76,53 +76,57 @@ class _AboutPage extends State<AboutPage> {
               Image.asset("assets/images/pumpkin-128.png"),
             ],
           ),
-          const Text(''),
           const SizedBox(height: 10),
-          RichText(
-            text: TextSpan(
-              children: [
-                const TextSpan(
-                  text: 'This is the controller application for the ',
-                ),
-                TextSpan(
-                  text: 'Glowing Pumpkin Xiao 5x5 BFF Server',
-                  style: linkStyle,
-                  recognizer: TapGestureRecognizer()
-                    ..onTap = () {
-                      _launchUrl(
-                          'https://github.com/johnwargo/glowing-pumpkin-xiao-bff-server');
-                    },
-                ),
-                const TextSpan(
-                    text: ' project. It allows you to remotely control a 5x5 '
-                        'array of LEDs (NeoPioxels) attached to a Seeed '
-                        'Studio Xaio device. Refer to the project link '
-                        'for additional details.\n'),
-              ],
-            ),
+          Text.rich(
+            TextSpan(children: [
+              const TextSpan(
+                text: 'This is the controller application for the ',
+              ),
+              TextSpan(
+                text: 'Glowing Pumpkin Xiao 5x5 BFF Server',
+                style: linkStyle,
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    _launchUrl(
+                        'https://github.com/johnwargo/glowing-pumpkin-xiao-bff-server');
+                  },
+              ),
+              const TextSpan(
+                  text: ' project. It allows you to remotely control a 5x5 '
+                      'array of LEDs (NeoPioxels) attached to a Seeed '
+                      'Studio Xaio device. Refer to the project link '
+                      'for additional details.\n'),
+            ]),
           ),
-          RichText(
-            text: TextSpan(
-              children: [
-                const TextSpan(
-                  text: 'Project and App by ',
-                ),
-                TextSpan(
-                  text: 'John M. Wargo',
-                  style: linkStyle,
-                  recognizer: TapGestureRecognizer()
-                    ..onTap = () {
-                      _launchUrl('https://johnwargo.com');
-                    },
-                ),
-                const TextSpan(text: '.'),
-              ],
-            ),
+          Text.rich(
+            TextSpan(children: [
+              const TextSpan(text: 'Project and App by '),
+              TextSpan(
+                text: 'John M. Wargo',
+                style: linkStyle,
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    _launchUrl('https://johnwargo.com');
+                  },
+              ),
+              const TextSpan(text: ', '),
+              TextSpan(
+                text: 'pumpkin icon',
+                style: linkStyle,
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    _launchUrl('https://www.flaticon.com/free-icons/pumpkin');
+                  },
+              ),
+              const TextSpan(
+                text: ' created by smalllikeart - Flaticon.',
+              ),
+            ]),
           ),
           const SizedBox(height: 20),
           const Text("Application Information",
               style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
-          const Divider(thickness: 3),
+          const Divider(),
           appInfoStr('Application name', _packageInfo.appName),
           appInfoStr('Package name', _packageInfo.packageName),
           appInfoStr('Application version', _packageInfo.version),

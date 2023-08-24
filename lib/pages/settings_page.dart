@@ -47,30 +47,26 @@ class _SettingsState extends State<SettingsPage>
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: SafeArea(
-        child: Column(children: [
-          Expanded(
-            child: ListView(padding: const EdgeInsets.all(12.0), children: [
-              const Text(
-                'Remote Device Host Address:',
-                style: boldStyle,
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                autofocus: true,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                ),
-                onChanged: updateHostAddress,
-                controller: hostAddressController,
-                style: const TextStyle(fontFamily: 'Roboto Mono', fontSize: 15),
-                keyboardType: TextInputType.multiline,
-                maxLines: null,
-              ),
-              const SizedBox(height: 20),
-              const Text('The application uses the host address to connect '
-                  'to the remote device over the local network.')
-            ]),
+        child: ListView(padding: const EdgeInsets.all(12.0), children: [
+          const Text(
+            'Remote Device Host Address:',
+            style: boldStyle,
           ),
+          const SizedBox(height: 10),
+          TextField(
+            autofocus: true,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+            ),
+            onChanged: updateHostAddress,
+            controller: hostAddressController,
+            style: const TextStyle(fontFamily: 'Roboto Mono', fontSize: 15),
+            keyboardType: TextInputType.multiline,
+            maxLines: null,
+          ),
+          const SizedBox(height: 20),
+          const Text('The application uses the host address to connect '
+              'to the remote device over the local network.')
         ]),
       ),
     );
