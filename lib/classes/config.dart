@@ -18,10 +18,12 @@ class Config with ChangeNotifier {
   factory Config() => _config;
 
   final hostAddressKey = 'HostAddress';
+  final broadcastPrefixKey = 'BroadcastPrefix';
 
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   String _hostAddress = '';
+  String _broadcastPrefix = '';
 
   Config._internal() {
     log.fine('Config: _internal()');
@@ -35,18 +37,25 @@ class Config with ChangeNotifier {
     final SharedPreferences prefs = await _prefs;
 
     _hostAddress = prefs.getString(hostAddressKey) ?? '';
-    // log.info('Config: Data loaded');
+    _broadcastPrefix = prefs.getString(broadcastPrefixKey) ?? '';
   }
 
   String get hostAddress {
-    // log.fine('Config: Get hostAddress');
     return _hostAddress;
   }
 
   set hostAddress(String hostAddress) {
-    // log.fine('Config: Set host address ($hostAddress)');
     _hostAddress = hostAddress;
     _saveString(hostAddressKey, hostAddress);
+  }
+
+  String get broadcastPrefix {
+    return _broadcastPrefix;
+  }
+
+  set broadcastPrefix(String broadcastPrefix) {
+    _broadcastPrefix = broadcastPrefix;
+    _saveString(broadcastPrefixKey, broadcastPrefix);
   }
 
   _saveString(String key, String value, {bool hideValue = false}) async {
