@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:udp/udp.dart';
 
 import '../classes/config.dart';
 import '../constants.dart';
@@ -27,6 +28,7 @@ late FlashCount? selectedCount;
 // https://stackoverflow.com/questions/57793479/flutter-futurebuilder-gets-constantly-called
 late Future initFuture;
 
+const configErrorStr = 'Configuration Error';
 final Alerts alerts = Alerts(); // Alert functions
 final Config config = Config();
 final dio = Dio();
@@ -309,21 +311,37 @@ Widget _expandedButton(
 }
 
 void execCmd(BuildContext context, String cmdSnippet) async {
-  Response response;
-
-  String hostAddress = config.hostAddress ?? '';
-  if (hostAddress.isEmpty) {
-    alerts.alertRaisedWait(
-        context: context,
-        title: 'Configuration Error',
-        message: 'You must enter an IP Address for the remote device'
-            'before you can send commands to it.\nOpen the '
-            'Settings page (click the gear icon in the upper right'
-            'corner of the app) and enter the IP address.');
-    return;
+  if (config.connectionMethod == ConnectionMethod.http) {
+    String hostAddress = config.hostAddress;
+    if (hostAddress.isEmpty) {
+      alerts.alertRaisedWait(
+          context: context,
+          title: configErrorStr,
+          message: 'You must enter an IP Address for the remote device'
+              'before you can send commands to it.\nOpen the '
+              'Settings page (click the gear icon in the upper right'
+              'corner of the app) and enter the IP address.');
+      return;
+    }
+    sendHTTPCommand(context, 'http://$hostAddress/$cmdSnippet');
+  } else {
+    String broadcastPrefix = config.broadcastPrefix;
+    if (broadcastPrefix.isEmpty) {
+      alerts.alertRaisedWait(
+          context: context,
+          title: configErrorStr,
+          message: 'You must enter a broadcast prefix in the app '
+              'configuration.\nOpen the Settings page (click the '
+              'gear icon in the upper right corner of the app) '
+              'and update the broadcast prefix.');
+      return;
+    }
+    sendUDPBroadcast(context, '$broadcastPrefix::$cmdSnippet');
   }
+}
 
-  String cmdStr = 'http://$hostAddress/$cmdSnippet';
+void sendHTTPCommand(BuildContext context, String cmdStr) async {
+  Response response;
   log.info('Connecting to $cmdStr');
   try {
     EasyLoading.show(status: 'Executing...');
@@ -332,7 +350,7 @@ void execCmd(BuildContext context, String cmdSnippet) async {
     if (response.statusCode == 200) {
       log.info('Success');
       Fluttertoast.showToast(
-          msg: 'Successfully executed "$cmdSnippet" command',
+          msg: 'Success',
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 1,
@@ -361,4 +379,28 @@ void execCmd(BuildContext context, String cmdSnippet) async {
       log.info(e.message);
     }
   }
+}
+
+void sendUDPBroadcast(BuildContext context, String cmdStr) async {
+  // creates a new UDP instance and binds it to the local address and the port
+  // 65002. Creating this early so its available when the app sends.
+  // var receiver = await UDP.bind(Endpoint.loopback(port: const Port(65002)));
+  var receiver = await UDP.bind(Endpoint.any());
+
+  // https://pub.dev/packages/udp
+  // creates a UDP instance and binds it to the first available network
+  // interface on port 65000.
+  var sender = await UDP.bind(Endpoint.any(port: const Port(65000)));
+  // send a simple string to a broadcast endpoint on port 65001.
+  var dataLength = await sender.send(
+      cmdStr.codeUnits, Endpoint.broadcast(port: const Port(65001)));
+  log.info("Broadcasting $cmdStr ($dataLength bytes)");
+
+  receiver.asStream(timeout: const Duration(seconds: 10)).listen((datagram) {
+    var str = String.fromCharCodes(datagram!.data);
+    log.info(str);
+  });
+  // close the UDP instances and their sockets.
+  receiver.close();
+  sender.close();
 }

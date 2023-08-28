@@ -12,41 +12,38 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants.dart';
 
+enum ConnectionMethod { http, udp }
+
 class Config with ChangeNotifier {
   static final Config _config = Config._internal();
 
   factory Config() => _config;
 
-  final hostAddressKey = 'HostAddress';
   final broadcastPrefixKey = 'BroadcastPrefix';
+  final connectionMethodKey = 'ConnectionMethod';
+  final hostAddressKey = 'HostAddress';
 
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   String _hostAddress = '';
   String _broadcastPrefix = '';
+  late ConnectionMethod _connectionMethod;
 
   Config._internal() {
     log.fine('Config: _internal()');
   }
 
   Future loadData() async {
-    // log.info('Config: loadData()');
     // uncomment the following code to simulate a delay in loading the config
     // so you can see the loading message longer
     // await Future.delayed(const Duration(seconds: 4), () {});
     final SharedPreferences prefs = await _prefs;
 
+    _broadcastPrefix = prefs.getString(broadcastPrefixKey) ?? 'pumpkin';
+    int tempInt =
+        prefs.getInt(connectionMethodKey) ?? ConnectionMethod.http.index;
+    _connectionMethod = ConnectionMethod.values[tempInt];
     _hostAddress = prefs.getString(hostAddressKey) ?? '';
-    _broadcastPrefix = prefs.getString(broadcastPrefixKey) ?? '';
-  }
-
-  String get hostAddress {
-    return _hostAddress;
-  }
-
-  set hostAddress(String hostAddress) {
-    _hostAddress = hostAddress;
-    _saveString(hostAddressKey, hostAddress);
   }
 
   String get broadcastPrefix {
@@ -58,12 +55,31 @@ class Config with ChangeNotifier {
     _saveString(broadcastPrefixKey, broadcastPrefix);
   }
 
-  _saveString(String key, String value, {bool hideValue = false}) async {
-    // Show asterisks or the actual value? Generates string made up of
-    // asterisks equaling the length of the original string
-    String printVal = hideValue ? '*' * value.length : value;
-    // log.info('Config: Writing "$printVal" to preferences "$key"');
+  ConnectionMethod get connectionMethod {
+    return _connectionMethod;
+  }
+
+  set connectionMethod(ConnectionMethod connectionMethod) {
+    _connectionMethod = connectionMethod;
+    _saveInt(connectionMethodKey, connectionMethod.index);
+  }
+
+  String get hostAddress {
+    return _hostAddress;
+  }
+
+  set hostAddress(String hostAddress) {
+    _hostAddress = hostAddress;
+    _saveString(hostAddressKey, hostAddress);
+  }
+
+  _saveString(String key, String value) async {
     final SharedPreferences prefs = await _prefs;
     prefs.setString(key, value);
+  }
+
+  _saveInt(String key, int value) async {
+    final SharedPreferences prefs = await _prefs;
+    prefs.setInt(key, value);
   }
 }

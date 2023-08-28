@@ -19,6 +19,7 @@ dependencies:
   logging: ^1.2.0
   package_info_plus: ^4.1.0
   shared_preferences: ^2.2.0
+  udp: ^5.0.3
   url_launcher: ^6.1.12
 
 dev_dependencies:

@@ -13,7 +13,7 @@ class AboutPage extends StatefulWidget {
   const AboutPage({super.key});
 
   @override
-  _AboutPage createState() => _AboutPage();
+  State<AboutPage> createState() => _AboutPage();
 }
 
 class _AboutPage extends State<AboutPage> {
