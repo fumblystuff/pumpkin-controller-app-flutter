@@ -72,7 +72,7 @@ class _SettingsState extends State<SettingsPage>
           Column(
             children: [
               RadioListTile<ConnectionMethod>(
-                title: const Text('HTTP (Web Server)'),
+                title: const Text('Web Server (HTTP)'),
                 value: ConnectionMethod.http,
                 groupValue: _connection,
                 onChanged: (ConnectionMethod? value) {
@@ -83,7 +83,7 @@ class _SettingsState extends State<SettingsPage>
                 // hide this on the web as it's not a valid option
                 visible: !kIsWeb,
                 child: RadioListTile<ConnectionMethod>(
-                  title: const Text('UDP (Experimental, do not use!)'),
+                  title: const Text('Broadcast (UDP)'),
                   value: ConnectionMethod.udp,
                   groupValue: _connection,
                   onChanged: (ConnectionMethod? value) {
