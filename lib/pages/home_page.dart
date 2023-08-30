@@ -382,15 +382,15 @@ void sendHTTPCommand(BuildContext context, String cmdStr) async {
 }
 
 void sendUDPBroadcast(BuildContext context, String cmdStr) async {
+  // https://pub.dev/packages/udp
+  // creates a UDP instance and binds it to the first available network
+  // interface on port 65000.
+  var sender = await UDP.bind(Endpoint.any(port: const Port(65000)));
   // creates a new UDP instance and binds it to the local address and the port
   // 65002. Creating this early so its available when the app sends.
   // var receiver = await UDP.bind(Endpoint.loopback(port: const Port(65002)));
   var receiver = await UDP.bind(Endpoint.any());
 
-  // https://pub.dev/packages/udp
-  // creates a UDP instance and binds it to the first available network
-  // interface on port 65000.
-  var sender = await UDP.bind(Endpoint.any(port: const Port(65000)));
   // send a simple string to a broadcast endpoint on port 65001.
   var dataLength = await sender.send(
       cmdStr.codeUnits, Endpoint.broadcast(port: const Port(65001)));
