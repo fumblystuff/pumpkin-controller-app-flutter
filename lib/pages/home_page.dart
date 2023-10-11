@@ -128,12 +128,13 @@ class _PumpkinControllerHomeState extends State<PumpkinControllerHome> {
                           child: Row(
                             children: <Widget>[
                               Expanded(
-                                child: ElevatedButton(
+                                child: ElevatedButton.icon(
+                                  label: const Text('All Off'),
+                                  icon: const Icon(Icons.highlight_off),
                                   onPressed: () {
                                     execCmd(context, 'off');
                                   },
                                   style: btnStyle,
-                                  child: const Text('All Off'),
                                 ),
                               ),
                             ],
@@ -144,17 +145,19 @@ class _PumpkinControllerHomeState extends State<PumpkinControllerHome> {
                           child: Row(
                             children: <Widget>[
                               Expanded(
-                                child: ElevatedButton(
+                                child: ElevatedButton.icon(
+                                  label: const Text('Random'),
+                                  icon: const Icon(Icons.shuffle),
                                   onPressed: () {
                                     execCmd(context, 'random');
                                   },
                                   style: btnStyle,
-                                  child: const Text('Random'),
                                 ),
                               ),
                               SizedBox(width: boxWidth),
                               Expanded(
                                 child: ElevatedButton(
+                                  // icon: const Icon(Icons.bolt),
                                   onPressed: () {
                                     execCmd(context, 'lightning');
                                   },
