@@ -388,15 +388,17 @@ void sendUDPBroadcast(BuildContext context, String cmdStr) async {
   // https://pub.dev/packages/udp
   // creates a UDP instance and binds it to the first available network
   // interface on port 65000.
-  var sender = await UDP.bind(Endpoint.any(port: const Port(65000)));
-  // creates a new UDP instance and binds it to the local address and the port
-  // 65002. Creating this early so its available when the app sends.
+  var sender = await UDP.bind(Endpoint.any(port: const Port(udpPort)));
+  // creates a new UDP instance and binds it to the local address and the
+  // uspPort (constants.dart).  Creating this early so its available when
+  // the app sends.
   // var receiver = await UDP.bind(Endpoint.loopback(port: const Port(65002)));
   var receiver = await UDP.bind(Endpoint.any());
 
-  // send a simple string to a broadcast endpoint on port 65001.
+  // send a simple string to a broadcast endpoint on port udpBroadcastPort
+  // (from constants.dart).
   var dataLength = await sender.send(
-      cmdStr.codeUnits, Endpoint.broadcast(port: const Port(65001)));
+      cmdStr.codeUnits, Endpoint.broadcast(port: const Port(udpBroadcastPort)));
   log.info("Broadcasting $cmdStr ($dataLength bytes)");
 
   receiver.asStream(timeout: const Duration(seconds: 10)).listen((datagram) {
