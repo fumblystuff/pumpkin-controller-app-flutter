@@ -9,9 +9,13 @@ Use the application to:
 * Set a solid color
 * Flash the LED matrix a solid color from 1 to 5 times.
 
-Here's a screenshot of the application's home page:
+Here's a screenshot of the application's home page on Android:
 
 ![Home Page Image](images/home.png)
+
+Here's a screenshot of the application's home page on iOS:
+
+![Pumpkin Controller on iOS](images/pumpkin-controller-ios.png)
 
 ## Configuration
 
