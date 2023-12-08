@@ -21,7 +21,7 @@ class _SettingsState extends State<SettingsPage>
   static late TextEditingController broadcastPrefixController;
 
   String _hostAddress = '';
-  String _broadcastPrefix = '';
+  String _broadcastPrefix = 'pmpkn';
 
   void updateHostAddress(String value) {
     setState(() => _hostAddress = value.trim());

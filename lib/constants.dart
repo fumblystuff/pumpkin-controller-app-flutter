@@ -1,7 +1,6 @@
 import 'package:logging/logging.dart';
 
 const appName = 'Pumpkin Controller';
-const defaultBroadcastPrefix = 'pmpkn';
 const docUrl = 'https://simplerpncalcdocs.netlify.app/';
 
 const udpPort = 65000;
