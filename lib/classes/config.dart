@@ -39,7 +39,8 @@ class Config with ChangeNotifier {
     // await Future.delayed(const Duration(seconds: 4), () {});
     final SharedPreferences prefs = await _prefs;
 
-    _broadcastPrefix = prefs.getString(broadcastPrefixKey) ?? 'pumpkin';
+    _broadcastPrefix =
+        prefs.getString(broadcastPrefixKey) ?? defaultBroadcastPrefix;
     int tempInt =
         prefs.getInt(connectionMethodKey) ?? ConnectionMethod.http.index;
     _connectionMethod = ConnectionMethod.values[tempInt];
