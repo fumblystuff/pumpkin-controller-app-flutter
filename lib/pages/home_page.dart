@@ -367,6 +367,7 @@ void sendHTTPCommand(BuildContext context, String cmdStr) async {
           message: 'Remote command execution failed (unknown error)');
     }
   } on DioException catch (e) {
+    log.severe('Dio Exception');
     EasyLoading.dismiss();
     if (e.response != null) {
       print(e.response?.data);
@@ -378,8 +379,12 @@ void sendHTTPCommand(BuildContext context, String cmdStr) async {
           message: e.response!.statusMessage ?? 'Failure');
     } else {
       // Something happened in setting up or sending the request that triggered an Error
-      log.info(e.requestOptions);
-      log.info(e.message);
+      log.severe(e.error);
+      if (!context.mounted) return;
+      alerts.alertRaisedWait(
+          context: context,
+          title: 'Dio Library Exception',
+          message: e.error.toString() ?? 'Failure');
     }
   }
 }
